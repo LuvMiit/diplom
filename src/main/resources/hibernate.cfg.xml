@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:postgresql://localhost:5432/autoparkSMP</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.username">postgres</property>
+    <property name="connection.password">1234</property>
+    <property name="default_schema">autopark</property>
+    <property name="show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+
+    <mapping class="org.ssmp.model.CarSMP"/>
+    <mapping class="org.ssmp.model.Consumables"/>
+    <mapping class="org.ssmp.model.ConsumablesStorage"/>
+    <mapping class="org.ssmp.model.Crew"/>
+    <mapping class="org.ssmp.model.FuelTypes"/>
+    <mapping class="org.ssmp.model.Maintenance"/>
+    <mapping class="org.ssmp.model.Operations"/>
+    <mapping class="org.ssmp.model.Role"/>
+    <mapping class="org.ssmp.model.Staff"/>
+    <mapping class="org.ssmp.model.Station"/>
+    <mapping class="org.ssmp.model.Status"/>
+    <mapping class="org.ssmp.model.Storage"/>
+    <mapping class="org.ssmp.model.Types"/>
+    <mapping class="org.ssmp.model.Images"/>
+
+  </session-factory>
+</hibernate-configuration>
