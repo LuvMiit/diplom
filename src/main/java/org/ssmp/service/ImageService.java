@@ -2,14 +2,17 @@ package org.ssmp.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.ssmp.Utils.ImageUtil;
 import org.ssmp.model.CarSMP;
+import org.ssmp.model.ImageType;
 import org.ssmp.model.Images;
 import org.ssmp.repository.ImageRepository;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -17,21 +20,22 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
-    public String uploadImage(MultipartFile file) throws IOException {
-        Images imageData = imageRepository.save(Images.builder()
+    public String uploadImage(MultipartFile file, CarSMP car, ImageType type) throws IOException {
+        Calendar calendar = Calendar.getInstance();
+        imageRepository.save(Images.builder()
                 .imageName(file.getOriginalFilename())
                 .typeImage(file.getContentType())
-                .dataImage(ImageUtil.compressImage(file.getBytes())).build());
+                .dataImage(ImageUtil.compressImage(file.getBytes()))
+                .car(car)
+                .createdDate(calendar.getTime())
+                .type(type)
+                .build());
 
-        if(imageData != null){
-            return "file upload successfully "+file.getOriginalFilename();
-        }
-        return null;
+        return "file upload successfully " + file.getOriginalFilename();
     }
-
-    public byte[] downloadImage(CarSMP carSMP){
-//        Optional<Images> dbImage = imageRepository.findByCar(carSMP);
-        Optional<Images> dbImage = imageRepository.findById((long)1);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public byte[] downloadImage(CarSMP carSMP, ImageType type){
+        Optional<Images> dbImage = imageRepository.findByCarAndType(carSMP, type);
         return ImageUtil.decompressImage(dbImage.get().getDataImage());
 
     }

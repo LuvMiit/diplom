@@ -1,12 +1,18 @@
 package org.ssmp.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.processing.Pattern;
 
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -27,10 +33,15 @@ public class Images {
     private String typeImage;
 
     @Column(name="date_created")
-    private Calendar createdDate;
-    @ManyToOne(fetch = FetchType.LAZY)
+    private Date createdDate;
+
+    @ManyToOne
     @JoinColumn(name="car_id", referencedColumnName = "id_car")
     private CarSMP car;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id", referencedColumnName = "id_type")
+    private ImageType type;
 
     @Lob
     @Column(name="image_data")

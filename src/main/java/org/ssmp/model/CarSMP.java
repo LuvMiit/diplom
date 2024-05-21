@@ -43,9 +43,9 @@ public class CarSMP {
     @JoinColumn(name = "status_id", referencedColumnName = "id_status")
     private Status status;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "car_id", referencedColumnName = "id_car")
-    private List<Images> imagesList = new ArrayList<>();
+//    @OneToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "car_id", referencedColumnName = "id_car")
+//    private List<Images> imagesList = new ArrayList<>();
 
 
 
