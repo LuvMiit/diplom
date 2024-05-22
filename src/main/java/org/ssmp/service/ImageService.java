@@ -34,8 +34,8 @@ public class ImageService {
         return "file upload successfully " + file.getOriginalFilename();
     }
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public byte[] downloadImage(CarSMP carSMP, ImageType type){
-        Optional<Images> dbImage = imageRepository.findByCarAndType(carSMP, type);
+    public byte[] downloadImage(CarSMP carSMP, ImageType type, Date date){
+        Optional<Images> dbImage = imageRepository.findByCarAndTypeAndCreatedDate(carSMP, type, date);
         return ImageUtil.decompressImage(dbImage.get().getDataImage());
 
     }

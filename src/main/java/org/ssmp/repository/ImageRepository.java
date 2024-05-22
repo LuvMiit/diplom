@@ -6,10 +6,11 @@ import org.ssmp.model.CarSMP;
 import org.ssmp.model.ImageType;
 import org.ssmp.model.Images;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Images, Long> {
-    Optional<Images> findByCarAndType(CarSMP car, ImageType type);
+    Optional<Images> findByCarAndTypeAndCreatedDate(CarSMP car, ImageType type, Date createdDate);
 }

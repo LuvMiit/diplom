@@ -15,6 +15,9 @@ import org.ssmp.service.ImageTypesService;
 
 import javax.imageio.ImageTypeSpecifier;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -53,12 +56,15 @@ public class ImageController {
     public ResponseEntity<?> downloadImage(
             @PathVariable("carPlates") String carPlates,
             @PathVariable("type") String name,
-            @PathVariable("date") String date) {
+            @PathVariable("date") String date) throws ParseException {
 
         System.out.println("первый");
         CarSMP carSMP = carService.findCarByPlates(carPlates);
         ImageType type = imageTypesService.getImageType(name);
-        byte[] imageData = imageService.downloadImage(carSMP, type);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = df.parse(date);
+        System.out.println(startDate);
+        byte[] imageData = imageService.downloadImage(carSMP, type, startDate);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
