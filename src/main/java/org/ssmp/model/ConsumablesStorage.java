@@ -1,14 +1,14 @@
 package org.ssmp.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "storage_consumables")
 public class ConsumablesStorage {
 

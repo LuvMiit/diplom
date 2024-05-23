@@ -1,17 +1,11 @@
 package org.ssmp.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.processing.Pattern;
 
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -21,6 +15,7 @@ import java.util.Date;
 @Table(name="car_images")
 @Builder
 public class Images {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_image")

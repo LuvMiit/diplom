@@ -18,4 +18,8 @@ public class StorageService {
     public List<Storage> getStorageList(){
         return storageRepository.findAll();
     }
+
+    public Storage getStorageByAddress(String address){
+        return storageRepository.findByStorageAddress(address);
+    }
 }

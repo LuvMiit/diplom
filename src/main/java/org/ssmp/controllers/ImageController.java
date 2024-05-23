@@ -35,13 +35,10 @@ public class ImageController {
             @RequestPart(value = "image") MultipartFile file,
             @PathVariable("carPlates") String carPlates,
             @RequestPart(value = "type") String type
-    ) throws IOException {
-        System.out.println(carPlates);
+    ) throws IOException, ParseException {
         CarSMP carSMP = carService.findCarByPlates(carPlates);
-        System.out.println(carSMP);
 
         ImageType typeImage = imageTypesService.getImageType(type);
-        System.out.println(typeImage);
         String uploadImage = imageService.uploadImage(
                 file,
                 carSMP,

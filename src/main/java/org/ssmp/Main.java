@@ -8,11 +8,11 @@ import java.io.FileNotFoundException;
 @SpringBootApplication
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         try{
             SpringApplication.run(Main.class, args);
         }catch (Exception e){
-            System.out.println("aaaaaaaaa" + e);
+            System.out.println(e);
         }
 
       }

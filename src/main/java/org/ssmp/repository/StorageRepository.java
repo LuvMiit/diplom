@@ -6,4 +6,5 @@ import org.ssmp.model.Storage;
 
 @Repository
 public interface StorageRepository extends JpaRepository<Storage, Long> {
+    Storage findByStorageAddress(String address);
 }
