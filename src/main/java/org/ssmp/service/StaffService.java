@@ -23,6 +23,7 @@ public class StaffService implements UserDetailsService {
 
     private final StaffRepository staffRepository;
     private final RoleRepository roleRepository;
+    private final PostService postService;
 
     public List<Staff> getStaffList(){
         return staffRepository.findAll();
@@ -46,7 +47,7 @@ public class StaffService implements UserDetailsService {
 
     public void createNewUser(CreateUserDTO user){
         Staff newUser = new Staff();
-        newUser.setPost(user.getPost());
+        newUser.setPost(postService.getPostByName(user.getPost()));
         newUser.setFirstname(user.getFirstname());
         newUser.setSurname(user.getSurname());
         newUser.setPatronymic(user.getPatronymic());

@@ -1,10 +1,10 @@
 package org.ssmp.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.ssmp.dtos.ConsumableSaveDTO;
 import org.ssmp.model.Consumables;
 import org.ssmp.service.ConsumableService;
 
@@ -20,5 +20,15 @@ public class ConsumablesController {
     @GetMapping("/all")
     public List<Consumables> consumablesList(){
         return consumableService.getConsumablesList();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> saveNewConsumable(@RequestBody ConsumableSaveDTO consumableSaveDTO){
+        System.out.println(consumableSaveDTO);
+        if(consumableService.getConsumableByName(consumableSaveDTO.getConsumableName()) == null){
+            consumableService.saveConsumable(consumableSaveDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 }

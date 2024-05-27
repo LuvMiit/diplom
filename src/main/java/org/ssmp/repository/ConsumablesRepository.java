@@ -6,4 +6,5 @@ import org.ssmp.model.Consumables;
 
 @Repository
 public interface ConsumablesRepository extends JpaRepository<Consumables, Long> {
+    Consumables findByConsumableName(String name);
 }

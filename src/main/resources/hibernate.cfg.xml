@@ -27,6 +27,8 @@
     <mapping class="org.ssmp.model.Storage"/>
     <mapping class="org.ssmp.model.Types"/>
     <mapping class="org.ssmp.model.Images"/>
+    <mapping class="org.ssmp.model.TypeDocument"/>
+    <mapping class="org.ssmp.model.Document"/>
 
   </session-factory>
 </hibernate-configuration>

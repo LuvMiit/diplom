@@ -22,8 +22,9 @@ public class Staff implements UserDetails {
     @Column(name = "id_worker")
     private long workerID;
 
-    @Column(name = "post")
-    private String post;
+    @ManyToOne
+    @JoinColumn(name="post_id", referencedColumnName = "id_post")
+    private Post post;
 
     @Column(name = "surname")
     private String surname;
