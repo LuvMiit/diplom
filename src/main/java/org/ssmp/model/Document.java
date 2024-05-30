@@ -26,6 +26,10 @@ public class Document {
     private String dataType;
 
     @ManyToOne
+    @JoinColumn(name = "id_status", referencedColumnName = "id_status")
+    private Status status;
+
+    @ManyToOne
     @JoinColumn(name = "type_document", referencedColumnName = "id_type")
     private TypeDocument typeDocument;
 

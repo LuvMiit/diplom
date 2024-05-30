@@ -36,6 +36,9 @@ public class CarService {
         carSMP.setMileage(car.getMileage());
         carSMP.setType(typesService.getByTypeName(car.getType()));
         carSMP.setStatus(statusService.getByStatusName(car.getStatus()));
+        carSMP.setBrand(car.getBrand());
+        carSMP.setYearRelease(car.getRelease());
+        carSMP.setDateStart(car.getDateStart());
         System.out.println(carSMP);
         carRepository.save(carSMP);
 

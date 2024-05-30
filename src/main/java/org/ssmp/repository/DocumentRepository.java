@@ -7,4 +7,5 @@ import org.ssmp.model.Document;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     Document findByCarPlates(String carPlates);
+
 }

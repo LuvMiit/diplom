@@ -26,7 +26,6 @@ public class ImageService {
     public String uploadImage(MultipartFile file, CarSMP car, ImageType type) throws IOException, ParseException {
         Date calendar =new Date();
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String newDate = String.valueOf(calendar);
         System.out.println(sdf.parse(sdf.format(calendar)));
         imageRepository.save(Images.builder()
                 .imageName(file.getOriginalFilename())

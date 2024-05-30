@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Data
 @NoArgsConstructor
@@ -17,6 +18,7 @@ public class CarSMP {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_car")
     private long carID;
+
 
     @ManyToOne
     @JoinColumn(name = "station_id", referencedColumnName = "id_station")
@@ -35,6 +37,15 @@ public class CarSMP {
     @Column(name = "mileage")
     private double mileage;
 
+    @Column(name = "year_release")
+    private String yearRelease;
+
+    @Column(name = "date_start")
+    private String dateStart;
+
+    @Column(name = "brand")
+    private String brand;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_id", referencedColumnName = "id_type")
     private Types type;
@@ -42,15 +53,6 @@ public class CarSMP {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", referencedColumnName = "id_status")
     private Status status;
-
-//    @OneToMany(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "car_id", referencedColumnName = "id_car")
-//    private List<Images> imagesList = new ArrayList<>();
-
-
-
-
-
     @Override
     public String toString() {
         return "CarSMP{" +

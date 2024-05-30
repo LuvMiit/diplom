@@ -22,11 +22,13 @@
     <mapping class="org.ssmp.model.Operations"/>
     <mapping class="org.ssmp.model.Role"/>
     <mapping class="org.ssmp.model.Staff"/>
+    <mapping class="org.ssmp.model.Post"/>
     <mapping class="org.ssmp.model.Station"/>
     <mapping class="org.ssmp.model.Status"/>
     <mapping class="org.ssmp.model.Storage"/>
     <mapping class="org.ssmp.model.Types"/>
     <mapping class="org.ssmp.model.Images"/>
+    <mapping class="org.ssmp.model.ImageType"/>
     <mapping class="org.ssmp.model.TypeDocument"/>
     <mapping class="org.ssmp.model.Document"/>
 

@@ -11,6 +11,9 @@ import org.ssmp.repository.CarRepository;
 import org.ssmp.repository.StationRepository;
 import org.ssmp.service.CarService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,7 +36,10 @@ public class CarController {
             return new ResponseEntity<>(new ApplicationError("Такая машина уже существует",
                     HttpStatus.CONFLICT.value()),HttpStatus.CONFLICT);
         }
+        Date date = new Date();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        car.setDateStart(sdf.format(date));
         carService.addCar(car);
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.ok().body("Машина сохранена");
     }
 }

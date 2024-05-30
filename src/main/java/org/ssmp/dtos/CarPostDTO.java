@@ -11,4 +11,7 @@ public class CarPostDTO {
     private String status;
     private String type;
     private String fuel;
+    private String release;
+    private String brand;
+    private String dateStart;
 }
