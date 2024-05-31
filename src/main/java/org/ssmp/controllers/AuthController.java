@@ -14,6 +14,7 @@ import org.ssmp.Exceptions.ApplicationError;
 import org.ssmp.Utils.JwtTokenUtils;
 import org.ssmp.dtos.JwtResponse;
 import org.ssmp.dtos.LogInDTO;
+import org.ssmp.dtos.RegisterDTO;
 import org.ssmp.service.StaffService;
 
 @RestController
@@ -40,5 +41,6 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token, jwtTokenUtils.getUserRoles(token).getFirst()));
 
     }
+
 
 }

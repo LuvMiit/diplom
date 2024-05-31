@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.ssmp.dtos.BossDTO;
-import org.ssmp.dtos.CreateUserDTO;
+import org.ssmp.dtos.*;
 import org.ssmp.model.Staff;
 import org.ssmp.service.StaffService;
 
@@ -29,12 +28,18 @@ public class StaffController {
         return staffService.getBosses();
     }
 
-    @PostMapping("/create-user")
-    public ResponseEntity<?> createUser(@RequestBody CreateUserDTO createdUser){
-        if(staffService.loadUserByUsername(createdUser.getLogin())!=null){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+    @GetMapping("/drivers")
+    public List<DriverDTO> getDrivers(){
+        return staffService.getDrivers();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> createUser(@RequestBody RegisterDTO registerDTO){
+
+
+        if(staffService.registerNewUser(registerDTO)){
+            return new ResponseEntity<>((HttpStatus.OK));
         }
-        staffService.createNewUser(createdUser);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

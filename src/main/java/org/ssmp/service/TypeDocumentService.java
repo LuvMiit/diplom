@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.ssmp.model.TypeDocument;
 import org.ssmp.repository.TypeDocumentRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TypeDocumentService {
@@ -13,5 +15,9 @@ public class TypeDocumentService {
 
     public TypeDocument getTypeByName(String typeName){
         return typeDocumentRepository.findByTypeName(typeName);
+    }
+
+    public List<TypeDocument> getAllTypes() {
+        return typeDocumentRepository.findAll();
     }
 }

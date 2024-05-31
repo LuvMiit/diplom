@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.ssmp.Exceptions.ApplicationError;
 import org.ssmp.dtos.CarPostDTO;
+import org.ssmp.dtos.ChangeCarInfoDTO;
 import org.ssmp.model.CarSMP;
 import org.ssmp.repository.CarRepository;
 import org.ssmp.repository.StationRepository;
@@ -22,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarController {
     private final CarService carService;
-    private final StationRepository stationRepository;
 
 
     @GetMapping("/all")
@@ -42,4 +42,20 @@ public class CarController {
         carService.addCar(car);
         return ResponseEntity.ok().body("Машина сохранена");
     }
+    @PostMapping("/write-down/{carPlates}")
+    public void writeDownCar(
+            @PathVariable("carPlates") String carPlates
+    ){
+       carService.writeDownCar(carPlates);
+    }
+
+    @PostMapping("/change")
+    public void changeInfoForCar(
+            @RequestBody ChangeCarInfoDTO changeCarInfoDTO
+    ){
+        System.out.println("Пришлов  контроллер "+changeCarInfoDTO);
+        carService.changeCarInfo(changeCarInfoDTO);
+
+    }
+
 }

@@ -3,15 +3,18 @@ package org.ssmp.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.ssmp.Utils.HibernateUtil;
 import org.ssmp.dtos.BossDTO;
-import org.ssmp.dtos.CreateUserDTO;
+import org.ssmp.dtos.DriverDTO;
+import org.ssmp.dtos.RegisterDTO;
 import org.ssmp.model.Staff;
 import org.ssmp.repository.RoleRepository;
 import org.ssmp.repository.StaffRepository;
@@ -78,16 +81,24 @@ public class StaffService implements UserDetailsService {
         );
     }
 
-    public void createNewUser(CreateUserDTO user){
-        Staff newUser = new Staff();
-        newUser.setPost(postService.getPostByName(user.getPost()));
-        newUser.setFirstname(user.getFirstname());
-        newUser.setSurname(user.getSurname());
-        newUser.setPatronymic(user.getPatronymic());
-        newUser.setLogin(user.getLogin());
-        newUser.setPassword(user.getPassword());
-        newUser.setRoles(List.of(roleRepository.findByRoleName(user.getRole()).get()));
-        staffRepository.save(newUser);
+    public boolean registerNewUser(RegisterDTO registerDTO){
+        if(staffRepository.findByLogin(registerDTO.getLogin()).isPresent()){
+            return false;
+        }else{
+                System.out.println("Попали в регистрацию");
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                Staff newUser = new Staff();
+                newUser.setPost(postService.getPostByName(registerDTO.getPost()));
+                newUser.setFirstname(registerDTO.getName());
+                newUser.setSurname(registerDTO.getSurname());
+                newUser.setPatronymic(registerDTO.getPatronimyc());
+                newUser.setLogin(registerDTO.getLogin());
+                newUser.setPassword(bCryptPasswordEncoder.encode(registerDTO.getPass()));
+                newUser.setRoles(List.of(roleRepository.findByRoleName(registerDTO.getRole()).get()));
+                staffRepository.save(newUser);
+                return true;
+        }
+
     }
     public String getFIO(Staff employee){
 
@@ -95,8 +106,22 @@ public class StaffService implements UserDetailsService {
         String firstname = employee.getFirstname();
         String patronimyc = employee.getPatronymic();
 
-        return surname +" "+firstname.charAt(0)+" "+ patronimyc.charAt(0);
+        return surname +" "+firstname.charAt(0)+". "+ patronimyc.charAt(0)+".";
 
     }
 
+    public List<DriverDTO> getDrivers() {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            List<Staff> drivers = session.createQuery("from Staff where post=:post", Staff.class)
+                    .setParameter("post", postService.getPostByName("Водитель")).stream().toList();
+            List<DriverDTO> driverDTOList = new ArrayList<>();
+            for(Staff driver: drivers){
+                driverDTOList.add(new DriverDTO(driver.getWorkerID(), getFIO(driver)));
+            }
+            return driverDTOList;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
 }

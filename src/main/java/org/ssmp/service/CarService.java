@@ -1,8 +1,12 @@
 package org.ssmp.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
+import org.ssmp.Utils.HibernateUtil;
 import org.ssmp.dtos.CarPostDTO;
+import org.ssmp.dtos.ChangeCarInfoDTO;
 import org.ssmp.model.*;
 import org.ssmp.repository.CarRepository;
 
@@ -42,6 +46,55 @@ public class CarService {
         System.out.println(carSMP);
         carRepository.save(carSMP);
 
+    }
+
+    public void writeDownCar(String carPlates){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Transaction tr = session.beginTransaction();
+            CarSMP carSMP = carRepository.findByCarPlates(carPlates);
+            session.evict(carSMP);
+            carSMP.setStatus(statusService.getByStatusName("Архив"));
+            session.merge(carSMP);
+            tr.commit();
+        }
+    }
+
+    public void changeCarInfo(ChangeCarInfoDTO changeCarInfoDTO){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Transaction tr = session.beginTransaction();
+            CarSMP carSMP = carRepository.findByCarPlates(changeCarInfoDTO.getOldCarPlates());
+            session.evict(carSMP);
+
+            if(!changeCarInfoDTO.getNewCarPlates().isEmpty()){
+                carSMP.setCarPlates(changeCarInfoDTO.getNewCarPlates());
+            }
+            if(!changeCarInfoDTO.getFuel().isEmpty()){
+                carSMP.setFuelType(fuelTypesService.getFuelByName(changeCarInfoDTO.getFuel()));
+            }
+            if(!changeCarInfoDTO.getType().isEmpty()){
+                carSMP.setType(typesService.getByTypeName(changeCarInfoDTO.getType()));
+            }
+            if(!changeCarInfoDTO.getStatus().isEmpty()){
+                carSMP.setStatus(statusService.getByStatusName(changeCarInfoDTO.getStatus()));
+            }
+            if(!changeCarInfoDTO.getMileage().isEmpty()){
+                carSMP.setMileage(Double.parseDouble(changeCarInfoDTO.getMileage()));
+            }
+            if(!changeCarInfoDTO.getVinNumber().isEmpty()){
+                carSMP.setVinNumber(changeCarInfoDTO.getVinNumber());
+            }
+            if(!changeCarInfoDTO.getBrand().isEmpty()){
+                carSMP.setBrand(changeCarInfoDTO.getBrand());
+            }
+            if(!changeCarInfoDTO.getRelease().isEmpty()){
+                carSMP.setYearRelease(changeCarInfoDTO.getRelease());
+            }
+            if(!changeCarInfoDTO.getDateStart().isEmpty()){
+                carSMP.setDateStart(changeCarInfoDTO.getDateStart());
+            }
+            session.merge(carSMP);
+            tr.commit();
+        }
     }
 
 }

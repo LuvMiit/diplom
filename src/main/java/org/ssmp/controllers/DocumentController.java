@@ -2,14 +2,17 @@ package org.ssmp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.ssmp.dtos.documents.InfoDocumentAcceptDTO;
 import org.ssmp.dtos.documents.InfoForSaveDocDTO;
 import org.ssmp.dtos.documents.InfoForWriteDownDocDTO;
+import org.ssmp.model.Document;
 import org.ssmp.service.DocumentService;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @RestController
 @CrossOrigin
@@ -62,15 +65,18 @@ public class DocumentController {
     }
 
     @GetMapping("/get/{carPlates}/{type}")
-    public void getDocumentByPlateAndType(
+    public ResponseEntity<?> getDocumentByPlateAndType(
             @PathVariable("carPlates") String carPlates,
             @PathVariable("type") String type
     ) throws IOException {
-//        Document document = documentService.getDocByPlateAndType(carPlates,type);
-//        byte[] myBytes = document.getDocumentData();
-//        System.out.println(Arrays.toString(myBytes));
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.valueOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))
-//                .body(myBytes);
+        Document document = documentService.getDocByPlateAndType(carPlates,type);
+        if(document != null){
+            byte[] myBytes = document.getDocumentData();
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.valueOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))
+                    .body(myBytes);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

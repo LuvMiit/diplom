@@ -170,7 +170,7 @@ public class DocumentService {
     }
 
 
-    public void getDocByPlateAndType(String carPlates, String typeName){
+    public Document getDocByPlateAndType(String carPlates, String typeName){
         List<Document> documentList = new ArrayList<>();
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
@@ -182,7 +182,10 @@ public class DocumentService {
         }catch (Exception e){
             System.out.println(e);
         }
-//        return documentList.getFirst();
+        if(documentList.isEmpty()){
+            return null;
+        }
+        return documentList.getFirst();
     }
 
 }

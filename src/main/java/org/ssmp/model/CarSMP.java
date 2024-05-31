@@ -53,17 +53,5 @@ public class CarSMP {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", referencedColumnName = "id_status")
     private Status status;
-    @Override
-    public String toString() {
-        return "CarSMP{" +
-                "carID=" + carID +
-                ", station=" + station.getStationName() +
-                ", vinNumber='" + vinNumber + '\'' +
-                ", carPlates='" + carPlates + '\'' +
-                ", fuelType='" + fuelType.getFuelName() + '\'' +
-                ", mileage=" + mileage +
-                ", type=" + type.getTypeName() +
-                ", status=" + status.getStatusName() +
-                '}';
-    }
+
 }
